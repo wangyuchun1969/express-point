@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<module rename-to='expresspoint'>
+    <!-- Inherit the core Web Toolkit stuff. -->
+    <inherits name='com.google.gwt.user.User' />
+    <inherits name='com.google.gwt.inject.Inject' />
+
+    <!-- Default css -->
+    <inherits name='com.google.gwt.user.theme.standard.Standard' />
+    <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+    <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
+
+    <!-- Other module inherits -->
+	<inherits name='com.gwtplatform.dispatch.Dispatch' />
+    
+    <inherits name='com.gwtplatform.mvp.MvpWithEntryPoint' />
+
+    <source path='client' />
+    <source path='shared' />
+
+    <extend-configuration-property name="gin.ginjector.modules" 
+                                value="com.mquick.client.gin.ClientModule"/>
+    
+	<inherits name="com.google.gwt.logging.Logging" />
+	<set-property name="gwt.logging.firebugHandler" value="DISABLED" />
+	<set-property name="gwt.logging.enabled" value="TRUE" />
+	<set-property name="gwt.logging.logLevel" value="ALL" />
+	<set-property name="gwt.logging.consoleHandler" value="ENABLED" />
+	<set-property name="gwt.logging.developmentModeHandler"
+		value="DISABLED" />
+	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
+	<set-property name="gwt.logging.systemHandler" value="DISABLED" />
+    
+	<!-- For fast develop -->
+	<set-property name="user.agent" value="safari" />   
+    
+</module>
