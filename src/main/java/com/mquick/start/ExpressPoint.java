@@ -25,7 +25,7 @@ public class ExpressPoint {
 		Server server = new Server(8081);
 		
 		WebAppContext webapp = new WebAppContext();
-		webapp.setContextPath("/hello");
+		webapp.setContextPath("/start");
 		ProtectionDomain domain = ExpressPoint.class.getProtectionDomain();
 		URL location = domain.getCodeSource().getLocation();
 
@@ -63,7 +63,7 @@ public class ExpressPoint {
 
 		// NOTE: it works!
 		try {
-			MyLocalLauncher.browse("http://localhost:8081");
+			MyLocalLauncher.browse("http://localhost:8081/start/");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

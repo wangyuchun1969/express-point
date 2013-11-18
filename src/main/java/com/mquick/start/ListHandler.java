@@ -26,17 +26,30 @@ public class ListHandler extends AbstractHandler {
         baseRequest.setHandled(true);
 		
 		ByteArrayISO8859Writer writer = new ByteArrayISO8859Writer(1500);
-        response.setContentType(MimeTypes.TEXT_HTML);
+        response.setContentType(MimeTypes.TEXT_XML);
 
-        writer.write("<HTML><HEAD><TITLE>Hello");
-        writer.write("</TITLE><BODY>");
-        
         Server server = getServer();
         Handler[] handlers = server==null?null:server.getChildHandlersByClass(ContextHandler.class);
  
+        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         for (int i=0;handlers!=null && i<handlers.length;i++)
         {
             ContextHandler context = (ContextHandler)handlers[i];
+            writer.write("<handler>");
+            writer.write("<ContexPath value=\"");
+            writer.write(context.getContextPath());
+            writer.write("\" />");
+
+            writer.write("<Contex value=\"");
+            writer.write(context.toString());
+            writer.write("\" />");
+
+            writer.write("<Status value=\"");
+            writer.write(context.isRunning() ? "RUN" : "STOP");
+            writer.write("\" />");
+            
+            writer.write("</handler>");
+/*
             if (context.isRunning())
             {
                 writer.write("<li><a href=\"");
@@ -65,9 +78,10 @@ public class ListHandler extends AbstractHandler {
                     writer.write(" [stopped]");
                 writer.write("</li>\n");
             }
+*/
         }
     		
-        writer.write("\n</BODY>\n</HTML>\n");
+//        writer.write("\n</BODY>\n</HTML>\n");
         writer.flush();
         response.setContentLength(writer.size());
         OutputStream out=response.getOutputStream();
