@@ -10,43 +10,62 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.ProtectionDomain;
 
+import org.eclipse.jetty.deploy.App;
 import org.eclipse.jetty.deploy.DeploymentManager;
 import org.eclipse.jetty.deploy.providers.WebAppProvider;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.servlet.StatisticsServlet;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class ExpressPoint {
-
+    
+    static private class MyDeploymentManager extends DeploymentManager {
+    	@Override
+    	public void addApp(App app) {
+    		super.addApp(app);
+    		System.out.println(app.getContextPath());
+    	}
+    }
+    
 	public static void main(String[] args) throws Exception {
+        
 
 		Server server = new Server(8081);
-		
-		WebAppContext webapp = new WebAppContext();
-		webapp.setContextPath("/start");
-		ProtectionDomain domain = ExpressPoint.class.getProtectionDomain();
-		URL location = domain.getCodeSource().getLocation();
-
-		if (!location.toExternalForm().endsWith("WEB-INF/classes/"))
-			webapp.setWar(location.toExternalForm());
-		else {
-			// For start from maven exec:java
-			int length = location.toExternalForm().length();
-			webapp.setWar(location.toExternalForm().substring(0, length - 17));
-		}
-		
 		HandlerCollection handlers = new HandlerCollection();
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setServer(server);
         
-        handlers.setHandlers(new Handler[]{ webapp, contexts, new ListHandler()});
+
+		ProtectionDomain domain = ExpressPoint.class.getProtectionDomain();
+		URL location = domain.getCodeSource().getLocation();
+		String war;
+		if (!location.toExternalForm().endsWith("WEB-INF/classes/")) {
+			war = location.toExternalForm();
+		} else {
+			// For start from maven exec:java
+			int length = location.toExternalForm().length();
+			war = location.toExternalForm().substring(0, length - 17);
+		}
+        
+		WebAppContext webapp = new WebAppContext(handlers, war, "/start");
+		handlers.addHandler(contexts);
+
+        ServletContextHandler listContext = new ServletContextHandler(contexts, "/list");
+		listContext.addServlet(new ServletHolder(new DeployListServlet()), "/");
+		
+		handlers.addHandler(new ListHandler());
+        
         server.setHandler(handlers);
+		server.start();
 		
 		// ---------------------------------- jetty-deploy.xml
 		// https://github.com/btpka3/btpka3.github.com/blob/master/java/jetty/first-exec-war/src/execWar/java/Main.java
-		DeploymentManager deployer = new DeploymentManager();
+		DeploymentManager deployer = new MyDeploymentManager();
 		deployer.setContexts(contexts);
 //		deployer.setContextAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",".*/servlet-api-[^/]*\\.jar$");
 		WebAppProvider webappProvider = new WebAppProvider();
@@ -59,7 +78,6 @@ public class ExpressPoint {
 		deployer.addAppProvider(webappProvider);
 		server.addBean(deployer);
 
-		server.start();
 
 		// NOTE: it works!
 		try {

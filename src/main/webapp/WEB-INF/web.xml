@@ -26,4 +26,15 @@
 	<session-config>
 		<session-timeout>60</session-timeout>
 	</session-config>
-</web-app>
+
+  <servlet>
+    <servlet-name>DeployList</servlet-name>
+    <servlet-class>com.mquick.server.StubServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>DeployList</servlet-name>
+    <url-pattern>/list</url-pattern>
+  </servlet-mapping>
+
+ </web-app>
