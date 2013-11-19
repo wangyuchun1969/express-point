@@ -87,9 +87,7 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 
 	@Override
 	public void Beep() {
-		
 		loadExpressPortals();
-		getView().showExpressPortal("load");
 
 /*		dispatcher.execute(new ListWebAppsAction(), new AsyncCallback<ListWebAppsResult>(){
 
@@ -143,7 +141,7 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 	
 	public ExpressPortal createPortal(Node xmlnode) {
 		ExpressPortal p = new ExpressPortal();
-		p.path = "demo";
+		p.path = "demos";
 		return p;
 	}
 

@@ -51,7 +51,7 @@
 				</g:HorizontalPanel>
 			</g:SimplePanel>
 		</g:north>
-		<g:center size="500">
+		<g:center>
 			<g:FlowPanel ui:field="flows" width="100%" height="100%"></g:FlowPanel>
 		</g:center>
 	</g:DockLayoutPanel>
