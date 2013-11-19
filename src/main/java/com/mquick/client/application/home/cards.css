@@ -1,0 +1,39 @@
+@external .gwt-Label .gwt-Button .gwt-Label-admin;
+@external .gwt-Label-operator .gwt-Label-viewer td;
+
+.UsersCards {
+	overflow:		auto;
+	border-width:	1px;
+	border-style:	solid;
+	border-color:	#2A8EBF;
+	margin-top:		5px;
+	margin-left:	11px;
+/*	position:		absolute; */
+	width:			240px;
+	height:			100px;
+	float:			left;
+	clear:			right;
+	border-spacing:	2px;
+	padding:		5px;
+	vertical-align: middle;
+	text-align:		center;
+	cursor:			pointer;
+}
+
+.UsersCardsItem {
+	text-align:		left;
+	width:			100%;
+}
+
+.UsersCards:hover {
+	background-color:#c4e89e;
+}
+
+.UsersCards .gwt-Label {
+/*	font-size: 		20px; */
+}
+
+.UsersCards .gwt-Button {
+	width:			50px;
+	height:			30px;
+}

@@ -85,6 +85,12 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 		});
     }
 
+    @Override
+	protected void onReveal() {
+    	super.onReveal();
+		loadExpressPortals();
+    }
+    
 	@Override
 	public void Beep() {
 		loadExpressPortals();
