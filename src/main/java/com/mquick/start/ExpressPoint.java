@@ -55,9 +55,6 @@ public class ExpressPoint {
 
         ServletContextHandler listContext = new ServletContextHandler(contexts, "/list");
 		listContext.addServlet(new ServletHolder(new DeployListServlet()), "/");
-		
-		handlers.addHandler(new ListHandler());
-        
         server.setHandler(handlers);
 		server.start();
 		

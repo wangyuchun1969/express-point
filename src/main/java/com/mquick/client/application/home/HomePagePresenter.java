@@ -17,6 +17,12 @@
 package com.mquick.client.application.home;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -73,7 +79,10 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 
 	@Override
 	public void Beep() {
-		dispatcher.execute(new ListWebAppsAction(), new AsyncCallback<ListWebAppsResult>(){
+		
+		loadExpressPortals();
+		
+/*		dispatcher.execute(new ListWebAppsAction(), new AsyncCallback<ListWebAppsResult>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -84,6 +93,33 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 			public void onSuccess(ListWebAppsResult result) {
 				GWT.log("Yes, it success");
 			}});
-	}
+*/	}
 
+	void loadExpressPortals() {
+		String url = "/list/";
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
+
+		try {
+		  builder.sendRequest(null, new RequestCallback() {
+		    public void onError(Request request, Throwable exception) {
+		        GWT.log("list Express Portals Error.");
+		    }
+
+			@Override
+		    public void onResponseReceived(Request request, Response response) {
+		      if (200 == response.getStatusCode()) {
+			        GWT.log("list Express Portals.");
+		          GWT.log(response.getText());
+		      } else {
+		        GWT.log("list Express Portals Failed.");
+		      }
+		    }
+
+		  });
+		  
+		} catch (RequestException e) {
+		  // Couldn't connect to server
+		}		
+	}
+	
 }
