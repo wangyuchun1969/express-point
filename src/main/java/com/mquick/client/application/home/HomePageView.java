@@ -16,10 +16,12 @@
 
 package com.mquick.client.application.home;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -47,4 +49,14 @@ public class HomePageView extends ViewWithUiHandlers<HomeUiHandlers> implements 
 	public void showDashboardStatus(String status) {
 		dashboardstatus.getElement().setInnerHTML(status);
 	}
+
+
+	@Override
+	public void showExpressPortal(String path) {
+		GWT.log("Portal: " + path);
+		flows.add(new ExpressPortalCardWidget(path));
+	}
+
+	@UiField
+	FlowPanel flows;
 }

@@ -16,6 +16,9 @@
 
 package com.mquick.client.application.home;
 
+import java.util.List;
+import java.util.Vector;
+
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -24,6 +27,10 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.dispatch.shared.DispatchAsync;
@@ -42,6 +49,7 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 	HomePagePresenter.MyProxy> implements HomeUiHandlers{
     public interface MyView extends View,HasUiHandlers<HomeUiHandlers> {
     	void showDashboardStatus(String status);
+    	void showExpressPortal(String path);
     }
 
     private final DispatchAsync dispatcher;
@@ -81,7 +89,8 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 	public void Beep() {
 		
 		loadExpressPortals();
-		
+		getView().showExpressPortal("load");
+
 /*		dispatcher.execute(new ListWebAppsAction(), new AsyncCallback<ListWebAppsResult>(){
 
 			@Override
@@ -108,8 +117,16 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 			@Override
 		    public void onResponseReceived(Request request, Response response) {
 		      if (200 == response.getStatusCode()) {
-			        GWT.log("list Express Portals.");
+		    	  GWT.log("list Express Portals.");
 		          GWT.log(response.getText());
+		          Element entryElement = XMLParser.parse( response.getText() ).getDocumentElement();
+		          NodeList nodelist = entryElement.getChildNodes();
+		          for( int index = 0; index < nodelist.getLength(); index++) {
+		        	  ExpressPortal expressportal = createPortal(nodelist.item(index));
+		        	  protals.add(expressportal);
+		        	  getView().showExpressPortal(expressportal.path);
+		          }
+		        	  
 		      } else {
 		        GWT.log("list Express Portals Failed.");
 		      }
@@ -122,4 +139,16 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 		}		
 	}
 	
+	List<ExpressPortal> protals = new Vector<ExpressPortal>();
+	
+	public ExpressPortal createPortal(Node xmlnode) {
+		ExpressPortal p = new ExpressPortal();
+		p.path = "demo";
+		return p;
+	}
+
+	class ExpressPortal {
+		String path;
+		String descript;
+	}
 }
