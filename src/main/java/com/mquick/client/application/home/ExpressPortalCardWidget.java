@@ -25,13 +25,14 @@ public class ExpressPortalCardWidget extends Composite {
 	VerticalPanel vPanel = new VerticalPanel();
 	private final AbsolutePanel cardPanel = new AbsolutePanel();
 	
-	public ExpressPortalCardWidget(String html) {
+	public ExpressPortalCardWidget(String html, String status) {
 		cardresources.css().ensureInjected();
 		cardPanel.setStyleName(cardresources.css().UsersCards());
 		initWidget(cardPanel);
 		cardPanel.add(vPanel);
 		vPanel.setStyleName(cardresources.css().UsersCardsItem());
 		vPanel.add(new HTMLPanel(html));
+		vPanel.add(new HTMLPanel(status));
 	}
 
 }

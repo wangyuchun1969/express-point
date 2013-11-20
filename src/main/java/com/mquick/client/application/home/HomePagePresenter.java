@@ -49,7 +49,7 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 	HomePagePresenter.MyProxy> implements HomeUiHandlers{
     public interface MyView extends View,HasUiHandlers<HomeUiHandlers> {
     	void showDashboardStatus(String status);
-    	void showExpressPortal(String path);
+    	void showExpressPortal(String path, String status);
     }
 
     private final DispatchAsync dispatcher;
@@ -126,9 +126,9 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 		          Element entryElement = XMLParser.parse( response.getText() ).getDocumentElement();
 		          NodeList nodelist = entryElement.getChildNodes();
 		          for( int index = 0; index < nodelist.getLength(); index++) {
-		        	  ExpressPortal expressportal = createPortal(nodelist.item(index));
+		        	  ExpressPortal expressportal = createPortal((Element)nodelist.item(index));
 		        	  protals.add(expressportal);
-		        	  getView().showExpressPortal(expressportal.path);
+		        	  getView().showExpressPortal(expressportal.path, expressportal.status);
 		          }
 		        	  
 		      } else {
@@ -145,14 +145,16 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView,
 	
 	List<ExpressPortal> protals = new Vector<ExpressPortal>();
 	
-	public ExpressPortal createPortal(Node xmlnode) {
+	public ExpressPortal createPortal(Element xmlnode) {
 		ExpressPortal p = new ExpressPortal();
-		p.path = "demos";
+		p.path = xmlnode.getAttribute("ContexPath");
+		p.status = xmlnode.getAttribute("Status");
 		return p;
 	}
 
 	class ExpressPortal {
 		String path;
 		String descript;
+		String status;
 	}
 }

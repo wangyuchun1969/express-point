@@ -52,9 +52,8 @@ public class HomePageView extends ViewWithUiHandlers<HomeUiHandlers> implements 
 
 
 	@Override
-	public void showExpressPortal(String path) {
-		GWT.log("Portal: " + path);
-		flows.add(new ExpressPortalCardWidget(path));
+	public void showExpressPortal(String path, String status) {
+		flows.add(new ExpressPortalCardWidget(path, status));
 	}
 
 	@UiField

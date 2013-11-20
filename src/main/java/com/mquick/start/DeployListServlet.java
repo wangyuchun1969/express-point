@@ -71,18 +71,18 @@ public class DeployListServlet extends HttpServlet {
         for (int i=0;handlers!=null && i<handlers.length;i++)
         {
             ContextHandler context = (ContextHandler)handlers[i];
-            writer.write("<handler>");
-            writer.write("<ContexPath value=\"");
+            writer.write("<handler ContexPath=\"");
             writer.write(context.getContextPath());
-            writer.write("\" />");
+            writer.write("\"");
+
+            writer.write(" Status=\"");
+            writer.write(context.isRunning() ? "RUN" : "STOP");
+            writer.write("\">");
 
             writer.write("<Contex value=\"");
             writer.write(context.toString());
             writer.write("\" />");
 
-            writer.write("<Status value=\"");
-            writer.write(context.isRunning() ? "RUN" : "STOP");
-            writer.write("\" />");
             
             writer.write("</handler>");
         }
