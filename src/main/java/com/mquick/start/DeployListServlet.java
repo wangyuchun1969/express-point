@@ -67,7 +67,7 @@ public class DeployListServlet extends HttpServlet {
         Server server = _contextHandler.getServer();
         Handler[] handlers = server==null?null:server.getChildHandlersByClass(ContextHandler.class);
  
-        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><handlers>");
         for (int i=0;handlers!=null && i<handlers.length;i++)
         {
             ContextHandler context = (ContextHandler)handlers[i];
@@ -86,7 +86,8 @@ public class DeployListServlet extends HttpServlet {
             
             writer.write("</handler>");
         }
-    		
+        writer.write("</handlers>");
+
         writer.flush();
         response.setContentLength(writer.size());
         OutputStream out=response.getOutputStream();
