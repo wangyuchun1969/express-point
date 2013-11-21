@@ -18,22 +18,11 @@ package com.mquick.server.guice;
 
 import com.gwtplatform.dispatch.server.guice.HandlerModule;
 import com.mquick.server.dispatch.ListWebAppsServerHandler;
-import com.mquick.server.websocket.DeployWebsocket;
 import com.mquick.shared.dispatch.ListWebAppsAction;
 
 public class ServerModule extends HandlerModule {
     @Override
     protected void configureHandlers() {
-    	
     	bindHandler(ListWebAppsAction.class, ListWebAppsServerHandler.class);
-    	
-    	try {
-			new DeployWebsocket();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-    	
     }
 }

@@ -20,6 +20,8 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import com.mquick.server.websocket.DeployWebsocket;
+
 public class ExpressPoint {
     
     static private class MyDeploymentManager extends DeploymentManager {
@@ -84,6 +86,15 @@ public class ExpressPoint {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+    	try {
+			new DeployWebsocket();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		server.join();
 	}
 
